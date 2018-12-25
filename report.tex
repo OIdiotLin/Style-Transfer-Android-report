@@ -1,0 +1,319 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  LaTeX + CJK ģ�壬ֻ��� A4 ֽ������Paper��
+%%
+%%  Ver 1.02 By DeathKing @ <dk.hit.edu.cn>
+%%  Ver 1.01 By rabbitbug @ www.ctex.org
+%%  Ver 1.0 by oLo @ bbs.ustc.edu.cn
+%%
+%%  You can mofify it and distribute it freely:)
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  ����ģ�壺A4 ֽ��С���֣����У��ɸ���Ҫ���˫�� twocolumn��
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper,11pt,onecolumn,twoside]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  packages
+%    �ⲿ��������Ҫ�õ��İ�
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{CJK}         % CJK ����֧��
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsfonts,amssymb,graphicx}    % EPS ͼƬ֧��
+\usepackage{subfigure}   % ʹ����ͼ��
+\usepackage{indentfirst} % ���Ķ�����������
+\usepackage{bm}          % ��ʽ�еĴ����ַ���������\boldsymbol��
+\usepackage{multicol}    % ����˫��
+\usepackage{indentfirst} % �����׶�����
+% \usepackage{picins}      % ͼƬǶ������� ������Ƭ
+\usepackage{abstract}    % 2���ĵ���һ��ժҪ���ؼ��ֺ��
+\usepackage{stfloats}
+\usepackage{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  lengths
+%    ����������ض���ҳ��߾࣬ʹ��������Ŀ���ϰ�ߡ�
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\addtolength{\topmargin}{-54pt}
+\setlength{\oddsidemargin}{-0.9cm}  % 3.17cm - 1 inch
+\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\textwidth}{17.00cm}
+\setlength{\textheight}{24.00cm}    % 24.62
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  ��������ʽ������title��author��affiliation��email�ȡ�
+%  ���κ��õ����ĵĵط�����\begin{CJK} ... \end{CJK}������������
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand{\baselinestretch}{1.1} %�����м��
+\parindent 22pt %���¶�����������
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ���⣬���ߣ�ͨ�ŵ�ַ����
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{CJK}{GBK}{song}
+\title{\huge{Final Report}} %\thanks{�ո�����:~XXXX$-$XX$-$XX. ������Ŀ��������Ȼ��ѧ����������Ŀ~(51685168)}}
+\author{Minghao Li, Huidong Lin, Wenyu Huang, Jingchao Yu\\[2pt]
+}
+\date{}  % ��һ������ȥ��Ĭ�ϵ�������ʾ
+\end{CJK}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ��ҳҳüҳ�Ŷ���
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\fancypagestyle{plain}{
+%\fancyhf{}
+%\lhead{��~XX~��\quad ��~X~��\\
+%\scriptsize{XXXX~��~XX~��}}
+%\chead{\centering{��~~��~~ȡ~~��~~��\\
+%\scriptsize{\textbf{The trip to get the Sutra}}}}
+%\rhead{Vol. XX, No. XX\\
+%\scriptsize{October, 2004}}
+%\lfoot{}
+%\cfoot{}
+%\rfoot{}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ��ҳ�������żҳ��ͬ����ҳüҳ��
+% R,C,L�ֱ���������ң�O,E������żҳ
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\pagestyle{fancy}
+%\fancyhf{}
+%\fancyhead[RE]{��~XX~��}
+%\fancyhead[CE]{��~~��~~ȡ~~��~~��}
+%\fancyhead[LE,RO]{\thepage}
+%\fancyhead[CO]{��~~��ȣ���ĸ��������������������̷��������}
+%\fancyhead[LO]{��~X~��}
+%\lfoot{}
+%\cfoot{}
+%\rfoot{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ������������������float���������� figure, table���������¶���
+% figure��ʹ֮���Ը���������Ҫ��λ�á�tableҲͬ������figure��Ϊ
+% table�Ϳ��ԡ�
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{figurehere}
+  {\def\@captype{figure}}
+  {}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  ��������
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\begin{CJK*}{GBK}{song}
+% \CJKcaption{GB}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  �Զ�������
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ����ʹ�����������ϱ���ʽ��ʾ
+\newcommand{\supercite}[1]{\textsuperscript{\cite{#1}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  ��ʾtitle������ҳ��Ϊ�գ�����־��Ҫ��
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  ����ժҪ
+%  ����ժҪ���ؼ��ʣ���ͼ����ŵ�ҳ�߾�
+%  ��Ӣ��ͬʱ����
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\oddsidemargin}{ 1cm}  % 3.17cm - 1 inch
+\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\textwidth}{13.50cm}
+\vspace{-.8cm}
+\begin{center}
+\parbox{\textwidth}{
+\CJKfamily{hei}\textbf{Abstract}\quad \CJKfamily{kai}~Our team choose an 
+android application which functions photo style transfer. We measure 
+the execution time for each part of the application and propose two computation 
+partitioning methods. We evaluate the completion time of the two methods and
+the local execution method in 4G and WIFI network.  
+It turns out that the appropriate partitioning methods improve the performance
+of the application. 
+%In our experiments the new system show great performance which means we make a correct design.\\
+
+%\CJKfamily{hei}�ؼ���\quad\CJKfamily{kai}��ң���ĸ������ۣ��칬\\
+%\CJKfamily{hei}��ͼ�����\quad TG9527\qquad  \CJKfamily{hei}���ױ�ʶ��\quad A
+}
+\end{center}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Ӣ��ժҪ
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\vspace{.1cm}
+%\begin{center}
+%\parbox{\textwidth}{
+%{\large{\textbf{Analysis and simulation of the peaches in the birthday party of lady Wang Mu}}}\\
+%\vspace{-0.5cm}
+%\begin{center}
+%\textbf{Hou Ge, Ba Jie}\\[2pt]
+%\small{\textit{(Dept. Qu Jing, New Western Univ., Changan Da Tang 123456, China)}}\\[2pt]
+%\end{center}
+%{\small{\textbf{Abstract}\quad The peaches in the birthday party of lady Wang Mu were so delicious that I want to dwell on the analysis and simulation on them. So that I can bring some of them to my kids in Hua Guo Shan.\\
+%\textbf{Key Words}\quad Peach, lady Wang Mu, birthday party, Heaven palace}}
+%}
+%\end{center}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  ���±��(���Ͻ�)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{minipage}[c]{10cm}
+% \vspace{-35.5cm}
+% ���±��~~~~1005$-$0388(2004)05$-$0505$-$04
+% \end{minipage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  �����ɴ˿�ʼ��������������������������������������������������
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  �ָ�����ҳ�߾�
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\oddsidemargin}{-.5cm}  % 3.17cm - 1 inch
+\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\textwidth}{17.00cm}
+\CJKfamily{song}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  ������ʼ
+% \begin{multicols}{2}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+Image style transfer is a task that based on deep learning which 
+means it is a compute-intensive task. So we decompose the application
+ software into a set of modules and measure the execution time of each 
+module. Then we designe a new system that seperate these modules into 
+two parts and transfer the compute-intensive part into a server so that 
+we can improve the performance of the application.
+
+\section{Our works}
+\subsection{Application}
+Style-transfer\cite{1508.06576} is to apply the artistic style of one image 
+to another image. The new image preserves the approximate 
+texture structure of the original image. In other words, 
+it's to add a style filter to the image. 
+
+% \subsection{performance metric and measurement}
+\subsection{Computation partitioning}
+
+We evaluate the execution time of each procedure of the application
+on both mobile devices and a server. 
+The evaluation time shown in Table \ref{tb:1} indicates that the 
+\textit{Tensorflow inference}\cite{tensorflow2015-whitepaper} procedure occupies most of the execution
+time of the application. Intuitively, we intend to allocate the computation
+work regarding the \textit{Tensorflow} network to a server.  
+
+On the other hand, the \textit{Rebuilding} parts are also considered to 
+compute on a server. In this manner, we propose two computation partitioning
+methods:
+
+\begin{enumerate}
+  \item Allocate the \textit{Rebuilding} and \textit{Inference} parts 
+  to a server while other computations tasks to the mobile device.
+  \item Allocate the \textit{Inference} part to server and 
+  other computation tasks to the mobile device.
+\end{enumerate}
+
+\begin{table}[!htb]
+  \centering
+  \caption{Execution Time on Mobile Devices and Server}\label{tb:1}
+  \begin{tabular}{ccc}
+    \hline
+    procedure & execution time on mobile devices(avg) & execution time on server\\
+    \hline
+    Tensorflow initiation & 228ms & 118ms\\
+    
+    Image scaling & 11ms & 2ms\\
+    
+    Rebuild input tensor & 103ms & 12ms\\
+    
+    Tensorflow inference & 7960ms & 4714ms\\
+    
+    Rebuild output image & 88ms & 7ms\\
+    \hline
+  \end{tabular}
+\end{table}
+
+\newpage
+
+\subsection{System Design and Architecture}
+
+We choose user structure which is shown below as Fig~\ref{uses} to 
+show our module structure:
+
+\begin{figure}[!htb] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
+  \centering %图片居中
+  \includegraphics[width=0.7\textwidth]{uses} %插入图片，[]中设置图片大小，{}中是图片文件名
+  \caption{uses structure} %最终文档中希望显示的图片标题
+  \label{uses} %用于文内引用的标签
+  \end{figure}
+
+We choose Client-Server structure as our Component-and-Connector structure which is shown below as Fig~\ref{C&C}:
+
+\begin{figure}[!htb] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
+  \centering %图片居中
+  \includegraphics[width=0.7\textwidth]{C&C} %插入图片，[]中设置图片大小，{}中是图片文件名
+  \caption{Client-Server structure} %最终文档中希望显示的图片标题
+  \label{C&C} %用于文内引用的标签
+  \end{figure}
+
+\section{Experiments and Results}
+
+We compare the local execution and two partitioning methods 
+over performance in terms of completion time of the program.
+For an overall evaluation, we run the application in both 4G
+and WIFI network. 
+%under various link speed. 
+
+\begin{table}[!hbt]
+  \centering
+  \caption{Completion time of different methods}
+  \begin{tabular}{ccc}
+    \hline
+    Method & WIFI & 4G\\
+    Method 1 & - & -\\
+    Method 2 & - & -\\
+    Local execution & - & - \\
+    \hline
+  \end{tabular}
+\end{table}
+
+
+\section{Conclusions}
+
+Our experiments indicates that partitioning by Client-Server structure improves performance a lot when only single client is online.
+
+% \section{References}
+
+\nocite{1508.06576}
+\nocite{tensorflow2015-whitepaper}
+
+\bibliographystyle{plain}
+\bibliography{bibtex} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  �ο�����
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\small
+%\begin{thebibliography}{99}
+%\setlength{\parskip}{0pt}  %����֮�����ֱ����
+%\bibitem{Wu}��ж�. ���μ�~[M], ��14XX��.
+%\bibitem{Xuan} ����. ���������ѧ��~[J], ��~6XX~��, 1(2): 23-55.
+
+%\end{thebibliography}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ���߼���,�������ͼƬ��picins�����\parpic����
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\normalsize
+%\parpic{%
+%\includegraphics[width=3.0cm]%
+%{Hou.jpg}}
+%\indent ��~~��~~($xxx-$)���У����ջ���ɽ�ˣ��������ߣ�����ɮ�Ĵ�ͽ�ܣ�����ʮ���䡢���Ƽ���
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  ��������
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \end{multicols}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  ���½���
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\end{CJK*}
+\end{document}
