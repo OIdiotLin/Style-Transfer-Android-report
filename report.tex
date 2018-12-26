@@ -201,6 +201,9 @@ style image to perform style-transfer on the input image.
 \subsection{Computation partitioning}
 
 The uses structure of the application is illustrated with Fig~\ref{uses}.
+The \emph{Style Transfer} part in the workflow comprises four procedures: 
+\textit{Rebuild input tensor}, \textit{Tensorflow initiation}, 
+\textit{Tensorflow inference} and \textit{Rebuild output image}.
 
 \begin{figure}[!htb] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
   \centering %图片居中
@@ -269,7 +272,7 @@ allocate \textit{Rebuilding}, \textit{Tensorflow initiation}
 % Component-and-Connector structure which is shown below as Fig~\ref{C&C}:
 
 The Component\&Connector structure of the application 
-is presented as Fig~\ref{C&C}, which is a Client-Server structure:
+is presented in Fig~\ref{C&C}, which is a Client-Server structure:
 
 \begin{figure}[!htb] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
   \centering %图片居中
@@ -278,22 +281,23 @@ is presented as Fig~\ref{C&C}, which is a Client-Server structure:
   \label{C&C} %用于文内引用的标签
 \end{figure}
 
-
-
 \section{Experiments and Results}
 
-We compare the local execution and two partitioning methods 
-over performance in terms of completion time of the program.
-For an overall evaluation under both 4G and WIFI network conditions. 
+We compare the local execution method and the proposed 
+partitioning method 
+over performance in terms of completion time of the program
+in both 4G and WIFI network conditions. 
+The results is shown in Fig~\ref{tb:result}. 
 
-\begin{table}[!hbt]\label{tb:result}
-  \centering
+\begin{table}[!hbt]
+  \caption{Completion time of Local execution and Proposed Method}
+  \centering\label{tb:result}
   \begin{tabular}{|c|c|c|}
   \hline
-  \multirow{2}{*}{} & \multicolumn{2}{c|}{Network Condition} \\ \cline{2-3} 
+  % \multirow{2}{*}{} & \multicolumn{2}{c|}{Network Condition} \\ \cline{2-3} 
                                        & WIFI                & 4G              \\ \hline
   Local execution                      &  12.24s             &  12.24s         \\ \hline
-  Partition Method                     &  7.50s              &  7.99s          \\ \hline
+  Proposed Method                     &  7.50s              &  7.99s          \\ \hline
   \end{tabular}
   \end{table}
 
