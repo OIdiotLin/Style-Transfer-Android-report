@@ -30,6 +30,9 @@
 \usepackage{abstract}    % 2���ĵ���һ��ժҪ���ؼ��ֺ��
 \usepackage{stfloats}
 \usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{multirow}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  lengths
 %    ����������ض���ҳ��߾࣬ʹ��������Ŀ���ϰ�ߡ�
@@ -126,11 +129,12 @@
 \begin{center}
 \parbox{\textwidth}{
 \CJKfamily{hei}\textbf{Abstract}\quad \CJKfamily{kai}~Our team choose an 
-android application which functions photo style transfer. We measure 
-the execution time for each part of the application and propose two computation 
-partitioning methods. We evaluate the completion time of the two methods and
-the local execution method in 4G and WIFI network.  
-It turns out that the appropriate partitioning methods improve the performance
+android application which functions image style transfer. We measure 
+the execution time for each part of the application and propose a computation 
+partitioning method based on the analysis of data transmission and execution time.
+We evaluate the completion time of the proposed method and
+the local execution method in both 4G and WIFI network conditions.  
+It turns out that the appropriate partitioning method improve the performance
 of the application. 
 %In our experiments the new system show great performance which means we make a correct design.\\
 
@@ -176,111 +180,128 @@ of the application.
 % \begin{multicols}{2}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-Image style transfer is a task that based on deep learning which 
-means it is a compute-intensive task. So we decompose the application
- software into a set of modules and measure the execution time of each 
-module. Then we designe a new system that seperate these modules into 
-two parts and transfer the compute-intensive part into a server so that 
-we can improve the performance of the application.
+Image style transfer\cite{1508.06576} is a technique used to generate an image
+that look like the input content image but in the style of the input
+style image with the help of convolutional neural networks(CNN).
+The Android application we choose is performing the image 
+style-transfer task completely on mobile devices. In the experiments,
+we analyze the execution time of each module in the application and 
+propose a computation partitioning method in order to improve the 
+poor performance of the locally-executed application. We evaluate the
+performance of our redesigned application under different network 
+conditions.
 
 \section{Our works}
 \subsection{Application}
-Style-transfer\cite{1508.06576} is to apply the artistic style of one image 
-to another image. The new image preserves the approximate 
-texture structure of the original image. In other words, 
-it's to add a style filter to the image. 
+The application allows users to input an image and select the predefined
+style image to perform style-transfer on the input image. 
 
-% \subsection{performance metric and measurement}
+%效果图放这
+
 \subsection{Computation partitioning}
 
+The uses structure of the application is illustrated with Fig~\ref{uses}.
+
+\begin{figure}[!htb] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
+  \centering %图片居中
+  \includegraphics[width=0.7\textwidth]{uses} %插入图片，[]中设置图片大小，{}中是图片文件名
+  \caption{Uses structure of the app} %最终文档中希望显示的图片标题
+  \label{uses} %用于文内引用的标签
+\end{figure}
+
 We evaluate the execution time of each procedure of the application
-on both mobile devices and a server. 
-The evaluation time shown in Table \ref{tb:1} indicates that the 
-\textit{Tensorflow inference}\cite{tensorflow2015-whitepaper} procedure occupies most of the execution
-time of the application. Intuitively, we intend to allocate the computation
-work regarding the \textit{Tensorflow} network to a server.  
+on both mobile devices and a server.
+The evaluation time showed in Table \ref{tb:1} indicates that the 
+computations about neural network including 
+\textit{Tensorflow initiation}
+and \textit{Tensorflow inference}\cite{tensorflow2015-whitepaper} 
+procedures occupy most of the execution time of the application. 
+Intuitively, we intend to allocate the computation
+work about neural network to a server where 
+the computation has been greatly improved.
+The \textit{Rebuilding} parts of input and output image are also
+allocated to the server because the byte stream which is transmitted
+to the server becomes larger when the image is rebuilded into 
+input tensors and it spends more time to rebuild input tensor locally.
+Therefore, We consider a computation partitioning method that
+allocate \textit{Rebuilding}, \textit{Tensorflow initiation}
+  and \textit{Tensorflow inference} parts 
+  to a server while other computations tasks to a mobile device.
 
-On the other hand, the \textit{Rebuilding} parts are also considered to 
-compute on a server. In this manner, we propose two computation partitioning
-methods:
+% On the other hand, the execution time of \textit{Rebuilding} parts 
+% are also considered to 
+% be computed on a server. In this manner, 
+% Considering the 
 
-\begin{enumerate}
-  \item Allocate the \textit{Rebuilding} and \textit{Inference} parts 
-  to a server while other computations tasks to the mobile device.
-  \item Allocate the \textit{Inference} part to server and 
-  other computation tasks to the mobile device.
-\end{enumerate}
-
-\begin{table}[!htb]
+\begin{table}[H]
   \centering
   \caption{Execution Time on Mobile Devices and Server}\label{tb:1}
   \begin{tabular}{ccc}
     \hline
     procedure & execution time on mobile devices(avg) & execution time on server\\
     \hline
-    Tensorflow initiation & 228ms & 118ms\\
+    Tensorflow initiation & 351ms & 228ms\\
     
-    Image scaling & 11ms & 2ms\\
+    Image scaling & 28ms & 11ms\\
     
-    Rebuild input tensor & 103ms & 12ms\\
+    Rebuild input tensor & 252ms & 103ms\\
     
-    Tensorflow inference & 7960ms & 4714ms\\
+    Tensorflow inference & 9920ms & 6960ms\\
     
-    Rebuild output image & 88ms & 7ms\\
+    Rebuild output image & 220ms & 88ms\\
     \hline
   \end{tabular}
 \end{table}
 
-\newpage
+
+% \begin{enumerate}[label=\textbf{Method \arabic*}, align=left]
+%   \item Allocate \textit{Rebuilding}, \textit{Tensorflow initiation}
+%   and \textit{Tensorflow inference} parts 
+%   to a server while other computations tasks to a mobile device.
+%   \item Allocate \textit{Tensorflow initiation}
+%   and \textit{Tensorflow inference} parts to a server and 
+%   other computation tasks to a mobile device.
+% \end{enumerate}
 
 \subsection{System Design and Architecture}
 
-We choose user structure which is shown below as Fig~\ref{uses} to 
-show our module structure:
+% We choose Client-Server structure as our 
+% Component-and-Connector structure which is shown below as Fig~\ref{C&C}:
+
+The Component\&Connector structure of the application 
+is presented as Fig~\ref{C&C}, which is a Client-Server structure:
 
 \begin{figure}[!htb] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
   \centering %图片居中
-  \includegraphics[width=0.7\textwidth]{uses} %插入图片，[]中设置图片大小，{}中是图片文件名
-  \caption{uses structure} %最终文档中希望显示的图片标题
-  \label{uses} %用于文内引用的标签
-  \end{figure}
-
-We choose Client-Server structure as our Component-and-Connector structure which is shown below as Fig~\ref{C&C}:
-
-\begin{figure}[!htb] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
-  \centering %图片居中
-  \includegraphics[width=0.7\textwidth]{C&C} %插入图片，[]中设置图片大小，{}中是图片文件名
-  \caption{Client-Server structure} %最终文档中希望显示的图片标题
+  \includegraphics[width=0.5\textwidth]{C&C} %插入图片，[]中设置图片大小，{}中是图片文件名
+  \caption{Client-Server structure of our application} %最终文档中希望显示的图片标题
   \label{C&C} %用于文内引用的标签
-  \end{figure}
+\end{figure}
+
+
 
 \section{Experiments and Results}
 
 We compare the local execution and two partitioning methods 
 over performance in terms of completion time of the program.
-For an overall evaluation, we run the application in both 4G
-and WIFI network. 
-%under various link speed. 
+For an overall evaluation under both 4G and WIFI network conditions. 
 
-\begin{table}[!hbt]
+\begin{table}[!hbt]\label{tb:result}
   \centering
-  \caption{Completion time of different methods}
-  \begin{tabular}{ccc}
-    \hline
-    Method & WIFI & 4G\\
-    Method 1 & - & -\\
-    Method 2 & - & -\\
-    Local execution & - & - \\
-    \hline
+  \begin{tabular}{|c|c|c|}
+  \hline
+  \multirow{2}{*}{} & \multicolumn{2}{c|}{Network Condition} \\ \cline{2-3} 
+                                       & WIFI                & 4G              \\ \hline
+  Local execution                      &  12.24s             &  12.24s         \\ \hline
+  Partition Method                     &  7.50s              &  7.99s          \\ \hline
   \end{tabular}
-\end{table}
-
+  \end{table}
 
 \section{Conclusions}
 
 Our experiments indicates that partitioning by Client-Server structure improves performance a lot when only single client is online.
 
-% \section{References}
+\section{References}
 
 \nocite{1508.06576}
 \nocite{tensorflow2015-whitepaper}
