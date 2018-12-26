@@ -21,7 +21,7 @@
 \usepackage{CJK}         % CJK ����֧��
 \usepackage{fancyhdr}
 \usepackage{amsmath,amsfonts,amssymb,graphicx}    % EPS ͼƬ֧��
-\usepackage{subfigure}   % ʹ����ͼ��
+% \usepackage{subfigure}   % ʹ����ͼ��
 \usepackage{indentfirst} % ���Ķ�����������
 \usepackage{bm}          % ��ʽ�еĴ����ַ���������\boldsymbol��
 \usepackage{multicol}    % ����˫��
@@ -198,15 +198,28 @@ style image to perform style-transfer on the input image.
 
 %效果图放这
 
+\begin{figure}
+  \begin{minipage}[t]{0.5\linewidth}
+    \centering
+    \includegraphics[width=2.2in]{origin}
+    \label{fig:origin}
+    \end{minipage}%
+    \begin{minipage}[t]{0.5\linewidth}
+    \centering
+    \includegraphics[width=2.2in]{transfer}
+    \label{fig:transfer}
+  \end{minipage}
+\end{figure}
+
 \subsection{Computation partitioning}
 
-The uses structure of the application is illustrated with Fig~\ref{uses}.
+The uses structure of the application is illustrated with Fig~\ref{fig:uses}.
 
 \begin{figure}[!htb] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
   \centering %图片居中
   \includegraphics[width=0.7\textwidth]{uses} %插入图片，[]中设置图片大小，{}中是图片文件名
   \caption{Uses structure of the app} %最终文档中希望显示的图片标题
-  \label{uses} %用于文内引用的标签
+  \label{fig:uses} %用于文内引用的标签
 \end{figure}
 
 We evaluate the execution time of each procedure of the application
