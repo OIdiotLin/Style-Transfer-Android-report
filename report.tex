@@ -201,49 +201,34 @@ similar texture but different style.
 
 %效果图放这
 
-<<<<<<< HEAD
 \begin{figure}[!hbt]
-=======
-\begin{figure}
->>>>>>> 793e49fafe5f5b548a4f110ec1a6fa236a83832f
   \begin{minipage}[t]{0.5\linewidth}
     \centering
     \includegraphics[width=2.2in]{origin}
     \label{fig:origin}
-<<<<<<< HEAD
     \end{minipage}
-=======
-    \end{minipage}%
->>>>>>> 793e49fafe5f5b548a4f110ec1a6fa236a83832f
     \begin{minipage}[t]{0.5\linewidth}
     \centering
     \includegraphics[width=2.2in]{transfer}
     \label{fig:transfer}
   \end{minipage}
-<<<<<<< HEAD
   \caption{Effect demo of the application}
 \end{figure}
 
 % \subsection{Computation partitioning}
 \subsection{Performance Analysis}
 
-The uses structure of the application is illustrated with Fig~\ref{uses},
-which presents the basic workflow of the application. 
-The input image is scaled to specific size for the purpose of 
-input regularization and translated to pixel stream as 
-the input of the \textit{Style Transfer} part. 
-The \textit{Style Transfer} part in the workflow 
-involves primary computation tasks of the CNN.  
-It comprises four procedures: 
-=======
-  \caption{Effect Demo}
-\end{figure}
-
-\subsection{Computation partitioning}
+% The uses structure of the application is illustrated with Fig~\ref{uses},
+% which presents the basic workflow of the application. 
+% The input image is scaled to specific size for the purpose of 
+% input regularization and translated to pixel stream as 
+% the input of the \textit{Style Transfer} part. 
+% The \textit{Style Transfer} part in the workflow 
+% involves primary computation tasks of the CNN.  
+% It comprises four procedures: 
 
 The uses structure of the application is illustrated with Fig~\ref{fig:uses}.
 The \emph{Style Transfer} part in the workflow comprises four procedures: 
->>>>>>> 793e49fafe5f5b548a4f110ec1a6fa236a83832f
 \textit{Rebuild input tensor}, \textit{Tensorflow initiation}, 
 \textit{Tensorflow inference} and \textit{Rebuild output image}.
 To \textit{Rebuild input tensor}, the pixel stream is decoded
@@ -261,13 +246,8 @@ image size.
 \begin{figure}[!htb] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
   \centering %图片居中
   \includegraphics[width=0.7\textwidth]{uses} %插入图片，[]中设置图片大小，{}中是图片文件名
-<<<<<<< HEAD
   \caption{Uses structure of the application} %最终文档中希望显示的图片标题
-  \label{uses} %用于文内引用的标签
-=======
-  \caption{Uses structure of the app} %最终文档中希望显示的图片标题
   \label{fig:uses} %用于文内引用的标签
->>>>>>> 793e49fafe5f5b548a4f110ec1a6fa236a83832f
 \end{figure}
 
 In order to partition computation tasks,
