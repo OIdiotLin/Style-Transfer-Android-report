@@ -19,6 +19,7 @@
 %    �ⲿ��������Ҫ�õ��İ�
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{CJK}         % CJK ����֧��
+\usepackage{pdfpages}
 \usepackage{fancyhdr}
 \usepackage{amsmath,amsfonts,amssymb,graphicx}    % EPS ͼƬ֧��
 % \usepackage{subfigure}   % ʹ����ͼ��
@@ -104,6 +105,9 @@
 %  ��������
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
+
+\includepdf[pages=-]{cover.pdf}
+
 \begin{CJK*}{GBK}{song}
 % \CJKcaption{GB}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -389,18 +393,35 @@ time as shown in Fig~\ref{tb:result}.
     \end{tabular}
     \end{table}
 
+  \begin{table}[!hbt]
+    \centering
+    \caption{Experiment System Environment}\label{tab:env}
+    \begin{tabular}{|l|l|l|}
+      \hline
+      \textbf{Device} & \textbf{RAM} & \textbf{CPU} \\
+      \hline
+      P9 & 3GB & 4$\times$2.5GHz \\
+      \hline
+      P9 Plus & 4GB & 4$\times$2.5GHz \\
+      \hline
+      Honor 8 & 4GB & 4$\times$2.3GHz \\
+      \hline
+      Server & 8GB & 8$\times$ 2.3GHz \\
+      \hline
+    \end{tabular}
+  \end{table}
+
 It turns out that the performance of mobile devices in the experiments
 are similar and the proposed method have obvious improvement 
 on the three mobile devices.
 
 \section{Conclusions}
 
-Our experiments indicates that partitioning by Client-Server structure improves performance a lot when only single client is online.
+Our experiments indicates that partitioning by Client-Server structure improves performance a lot when only single client is online. Since the initialization and inference processes of Tensorflow require much resource of RAM and CPU, the service running on server performs better.
 
-\section{References}
-
-\nocite{1508.06576}
-\nocite{tensorflow2015-whitepaper}
+% \nocite{1508.06576}
+% \nocite{tensorflow2015-whitepaper}
+\nocite{luan2017deep}
 
 \bibliographystyle{plain}
 \bibliography{bibtex} 
