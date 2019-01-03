@@ -13,7 +13,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  ����ģ�壺A4 ֽ��С���֣����У��ɸ���Ҫ���˫�� twocolumn��
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[a4paper,11pt,onecolumn,twoside]{article}
+\documentclass[a4paper,12pt,onecolumn,twoside]{article}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  packages
 %    �ⲿ��������Ҫ�õ��İ�
@@ -218,15 +218,6 @@ similar texture but different style.
 % \subsection{Computation partitioning}
 \subsection{Performance Analysis}
 
-% The uses structure of the application is illustrated with Fig~\ref{uses},
-% which presents the basic workflow of the application. 
-% The input image is scaled to specific size for the purpose of 
-% input regularization and translated to pixel stream as 
-% the input of the \textit{Style Transfer} part. 
-% The \textit{Style Transfer} part in the workflow 
-% involves primary computation tasks of the CNN.  
-% It comprises four procedures: 
-
 The uses structure of the application is illustrated with Fig~\ref{fig:uses}.
 The \emph{Style Transfer} part in the workflow comprises four procedures: 
 \textit{Rebuild input tensor}, \textit{Tensorflow initiation}, 
@@ -252,7 +243,9 @@ image size.
 
 In order to partition computation tasks,
 we evaluate the execution time of each procedure of the application
-on both mobile devices and a server. 
+on both mobile devices and a server. To obtain general evaluation, we
+evaluate the execution time on 3 mobile devices and use average
+values as execution time measure.
 The evaluation time showed in Table \ref{tb:1} indicates that the 
 computations about neural network including 
 \textit{Tensorflow initiation}
@@ -265,35 +258,41 @@ procedures occupy most of the execution time of the application.
 % be computed on a server. In this manner, 
 % Considering the 
 
+% \begin{table}[H]
+%   \centering
+%   \caption{Execution Time on Mobile Devices and Server}\label{tb:1}
+%   \begin{tabular}{ccc}
+%     \hline
+%     procedure & execution time on mobile devices(avg) & execution time on server\\
+%     \hline
+%     Tensorflow initiation & 351ms & 228ms\\
+    
+%     Image scaling & 28ms & 11ms\\
+    
+%     Rebuild input tensor & 252ms & 103ms\\
+    
+%     Tensorflow inference & 9920ms & 6960ms\\
+    
+%     Rebuild output image & 220ms & 88ms\\
+%     \hline
+%   \end{tabular}
+% \end{table}
+
 \begin{table}[H]
   \centering
   \caption{Execution Time on Mobile Devices and Server}\label{tb:1}
-  \begin{tabular}{ccc}
-    \hline
-    procedure & execution time on mobile devices(avg) & execution time on server\\
-    \hline
-    Tensorflow initiation & 351ms & 228ms\\
-    
-    Image scaling & 28ms & 11ms\\
-    
-    Rebuild input tensor & 252ms & 103ms\\
-    
-    Tensorflow inference & 9920ms & 6960ms\\
-    
-    Rebuild output image & 220ms & 88ms\\
-    \hline
+  \begin{tabular}{|c|c|c|c|c|c|}
+  \hline
+  \multirow{3}{*}{Procedure} & \multicolumn{5}{c|}{Execution Time(ms)}                      \\ \cline{2-6} 
+                             & \multicolumn{4}{c|}{Mobile Device} & \multirow{2}{*}{Server} \\ \cline{2-5}
+                             & P9    & R9 Plus  & Honor 8  & avg  &                         \\ \hline
+  Tensorflow initiation      & 342   & 364      & 344      & 350  & 228                     \\ \hline
+  Image scaling              & 27    & 30       & 27       & 28   & 11                      \\ \hline
+  Rebuild input tensor       & 247   & 258      & 251      & 252  & 103                     \\ \hline
+  Tensorflow inference       & 9577  & 10485    & 9698     & 9920 & 6960                    \\ \hline
+  Rebuild output image       & 213   & 232      & 216      & 220  & 88                      \\ \hline
   \end{tabular}
-\end{table}
-
-
-% \begin{enumerate}[label=\textbf{Method \arabic*}, align=left]
-%   \item Allocate \textit{Rebuilding}, \textit{Tensorflow initiation}
-%   and \textit{Tensorflow inference} parts 
-%   to a server while other computations tasks to a mobile device.
-%   \item Allocate \textit{Tensorflow initiation}
-%   and \textit{Tensorflow inference} parts to a server and 
-%   other computation tasks to a mobile device.
-% \end{enumerate}
+  \end{table}
 
 \subsection{System Design and Architecture}
 
@@ -328,9 +327,20 @@ allocates \textit{Rebuild input tensor},
 and \textit{Rebuild output image} procedures 
 to a server while other computations tasks to mobile devices.
 As a result, the computation partitioning 
-of the application is illustrated in
-terms of Component\&Connector structure
- as shown in Fig \ref{fig:C&C}.
+of the application is illustrated in Fig \ref{fig:partition}.
+
+
+ \begin{figure}[!hbt]
+   \centering
+   \includegraphics[width=0.8\textwidth]{uses-partition}
+    \caption{Computation Partitioning Method}
+    \label{fig:partition}
+ \end{figure}
+
+ For application deployment, the Component-Connector structure
+ is shown in Fig \ref{fig:C&C}, where we point out the transmission data
+ through network. We consider a simple situation in which we have serveral
+ end users and no requirement for high concurrency. 
 
 \begin{figure}[!htb] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
   \centering %图片居中
@@ -341,23 +351,47 @@ terms of Component\&Connector structure
 
 \section{Experiments and Results}
 
+Based on the proposed computation partitioning method,
+we test the application performance on 3 different mobile devices
+and make a comparison to the original local execution method. 
 We compare the local execution method and the proposed 
 partitioning method 
 over performance in terms of completion time of the program
-in both 4G and WIFI network conditions. 
-The results is shown in Fig~\ref{tb:result}. 
+in both 4G and WIFI network conditions. For convenience of experiment,
+we deploy both local execution method and remote partitioning method
+and enable the partitioning method by turning on the 
+Working Remotely button as shown in Fig \ref{fig:transfer}. 
+We test 3 times for each mobile device with both local execution
+and remote partitioning methods and obtain the average completion
+time as shown in Fig~\ref{tb:result}.
 
-\begin{table}[!hbt]
-  \caption{Completion time of Local execution and Proposed Method}
+% \begin{table}[!hbt]
+%   \caption{Completion time of Local execution and Proposed Method}
+%   \centering\label{tb:result}
+%   \begin{tabular}{|c|c|c|}
+%   \hline
+%   % \multirow{2}{*}{} & \multicolumn{2}{c|}{Network Condition} \\ \cline{2-3} 
+%                                        & WIFI                & 4G              \\ \hline
+%   Local execution                      &  12.24s             &  12.24s         \\ \hline
+%   Proposed Method                     &  7.50s              &  7.99s          \\ \hline
+%   \end{tabular}
+%   \end{table}
+
+  \begin{table}[!hbt]
+    \caption{Completion time of Local execution and Proposed Method}
   \centering\label{tb:result}
-  \begin{tabular}{|c|c|c|}
-  \hline
-  % \multirow{2}{*}{} & \multicolumn{2}{c|}{Network Condition} \\ \cline{2-3} 
-                                       & WIFI                & 4G              \\ \hline
-  Local execution                      &  12.24s             &  12.24s         \\ \hline
-  Proposed Method                     &  7.50s              &  7.99s          \\ \hline
-  \end{tabular}
-  \end{table}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+    \hline
+    \multirow{2}{*}{Method} & \multicolumn{2}{c|}{P9}    & \multicolumn{2}{c|}{R9 Plus} & \multicolumn{2}{c|}{Honor 8} & \multicolumn{2}{c|}{Avg}   \\ \cline{2-9} 
+                            & WIFI         & 4G          & WIFI          & 4G           & WIFI          & 4G           & WIFI         & 4G          \\ \hline
+    Local Execution         & \multicolumn{2}{c|}{11.82s} & \multicolumn{2}{c|}{12.92s}   & \multicolumn{2}{c|}{11.97s}   & \multicolumn{2}{c|}{12.24s} \\ \hline
+    Proposed partition      & 7.48s         & 7.87s        & 7.53s          & 8.17s         & 7.49s          & 7.94s        & 7.5s          & 7.99s       \\ \hline
+    \end{tabular}
+    \end{table}
+
+It turns out that the performance of mobile devices in the experiments
+are similar and the proposed method have obvious improvement 
+on the three mobile devices.
 
 \section{Conclusions}
 
