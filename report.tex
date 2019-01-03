@@ -195,41 +195,67 @@ conditions.
 \subsection{Application}
 The application allows users to input an image and select the predefined
 style image to perform style-transfer on the input image. 
+As shown in Fig \ref{fig:transfer}, the application requires
+a photo from camera as an input image and generate an image with
+similar texture but different style.
 
 %效果图放这
 
-\subsection{Computation partitioning}
+\begin{figure}[!hbt]
+  \begin{minipage}[t]{0.5\linewidth}
+    \centering
+    \includegraphics[width=2.2in]{origin}
+    \label{fig:origin}
+    \end{minipage}
+    \begin{minipage}[t]{0.5\linewidth}
+    \centering
+    \includegraphics[width=2.2in]{transfer}
+    \label{fig:transfer}
+  \end{minipage}
+  \caption{Effect demo of the application}
+\end{figure}
 
-The uses structure of the application is illustrated with Fig~\ref{uses}.
-The \emph{Style Transfer} part in the workflow comprises four procedures: 
+% \subsection{Computation partitioning}
+\subsection{Performance Analysis}
+
+The uses structure of the application is illustrated with Fig~\ref{uses},
+which presents the basic workflow of the application. 
+The input image is scaled to specific size for the purpose of 
+input regularization and translated to pixel stream as 
+the input of the \textit{Style Transfer} part. 
+The \textit{Style Transfer} part in the workflow 
+involves primary computation tasks of the CNN.  
+It comprises four procedures: 
 \textit{Rebuild input tensor}, \textit{Tensorflow initiation}, 
 \textit{Tensorflow inference} and \textit{Rebuild output image}.
+To \textit{Rebuild input tensor}, the pixel stream is decoded
+into RGB channel as input tensor, hence input tensor is 3 times
+large as the pixel stream. In the \textit{Tensorflow initiation}
+, the CNN model is loaded for inference. 
+Then \textit{Tensorflow inference} is responsible for CNN 
+computation for the input tensor and generate the output tensor.
+In the \textit{Rebuild output image}, 
+the output tensor is translated to pixel stream.
+Then the output stream is translated to bitmap and rescaled to origin
+image size.
+
 
 \begin{figure}[!htb] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
   \centering %图片居中
   \includegraphics[width=0.7\textwidth]{uses} %插入图片，[]中设置图片大小，{}中是图片文件名
-  \caption{Uses structure of the app} %最终文档中希望显示的图片标题
+  \caption{Uses structure of the application} %最终文档中希望显示的图片标题
   \label{uses} %用于文内引用的标签
 \end{figure}
 
-We evaluate the execution time of each procedure of the application
-on both mobile devices and a server.
+In order to partition computation tasks,
+we evaluate the execution time of each procedure of the application
+on both mobile devices and a server. 
 The evaluation time showed in Table \ref{tb:1} indicates that the 
 computations about neural network including 
 \textit{Tensorflow initiation}
 and \textit{Tensorflow inference}\cite{tensorflow2015-whitepaper} 
 procedures occupy most of the execution time of the application. 
-Intuitively, we intend to allocate the computation
-work about neural network to a server where 
-the computation has been greatly improved.
-The \textit{Rebuilding} parts of input and output image are also
-allocated to the server because the byte stream which is transmitted
-to the server becomes larger when the image is rebuilded into 
-input tensors and it spends more time to rebuild input tensor locally.
-Therefore, We consider a computation partitioning method that
-allocate \textit{Rebuilding}, \textit{Tensorflow initiation}
-  and \textit{Tensorflow inference} parts 
-  to a server while other computations tasks to a mobile device.
+
 
 % On the other hand, the execution time of \textit{Rebuilding} parts 
 % are also considered to 
@@ -268,17 +294,46 @@ allocate \textit{Rebuilding}, \textit{Tensorflow initiation}
 
 \subsection{System Design and Architecture}
 
-% We choose Client-Server structure as our 
-% Component-and-Connector structure which is shown below as Fig~\ref{C&C}:
+Intuitively, we intend to allocate the computation
+work about CNN(including \textit{Tensorflow initiation}
+and \textit{Tensorflow inference}) 
+to a server where 
+the computation work has been greatly improved.
 
-The Component\&Connector structure of the application 
-is presented in Fig~\ref{C&C}, which is a Client-Server structure:
+The format translation between pixel stream and tensor
+(including \textit{Rebuild input tensor} and 
+\textit{Rebuild output image})
+takes unnegligible time. 
+Assume that we assign the \textit{Rebuilding} tasks 
+to local devices instead of the server, 
+the input tensor instead of the pixel stream transmitted
+to the server definitely increases network latency as the
+input tensor is larger than the pixel stream. 
+On the other hand, worse local execution performance increases
+the computation time for \textit{Rebuilding input tensor}
+and \textit{Rebuilding output image} procedures compared to 
+server. So the local execution for these procedures does not 
+help to improve application performance.
+
+The \textit{Image scaling} procedure is considered negligible
+in execution time
+and therefore assigned to local devices.
+
+Therefore, we consider a computation partitioning method that
+allocates \textit{Rebuild input tensor}, 
+\textit{Tensorflow initiation}, \textit{Tensorflow inference} 
+and \textit{Rebuild output image} procedures 
+to a server while other computations tasks to mobile devices.
+As a result, the computation partitioning 
+of the application is illustrated in
+terms of Component\&Connector structure
+ as shown in Fig \ref{fig:C&C}.
 
 \begin{figure}[!htb] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形
   \centering %图片居中
-  \includegraphics[width=0.5\textwidth]{C&C} %插入图片，[]中设置图片大小，{}中是图片文件名
-  \caption{Client-Server structure of our application} %最终文档中希望显示的图片标题
-  \label{C&C} %用于文内引用的标签
+  \includegraphics[width=0.5\textwidth]{partition} %插入图片，[]中设置图片大小，{}中是图片文件名
+  \caption{Client-Server structure of the application} %最终文档中希望显示的图片标题
+  \label{fig:C&C} %用于文内引用的标签
 \end{figure}
 
 \section{Experiments and Results}
